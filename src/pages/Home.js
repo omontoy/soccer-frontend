@@ -8,7 +8,7 @@ function Home() {
 
   const handleLogout = () => {
     sessionStorage.clear()
-    history.push('/register')
+    history.push('/login')
   }
 
   return (
