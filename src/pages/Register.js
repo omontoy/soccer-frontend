@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useHistory } from "react-router-dom";
-import { Box, Button } from '@material-ui/core';
+import { soccerServer } from '../utils/apiaxios'
+
 
 const Register = () => {
   const [user, setUser] = useState({ email: '', password: '' })
   const history = useHistory()
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
+  const handleSubmit = async e => {
+    e.preventDefault()
 
     try {
-      const res = await axios.post('http://localhost:8000/users', user)
+      const { data: { token} } = await soccerServer({
+        method: 'POST',
+        url: '/users',
+        data: user
+      })
 
-      sessionStorage.setItem('token', res.token)
+      sessionStorage.setItem('token', token)
       history.push('/')
     } catch(e) {
       console.log(e);
@@ -21,40 +25,41 @@ const Register = () => {
   }
 
   const handleChage = ({ target: { name, value } }) => {
-    setUser({ ...user, [name]: value }) 
+    setUser({ 
+      ...user, 
+      [name]: value 
+    }) 
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <Box 
-        display="flex"
-        justifyContent="center"
-        flexDirection="column"
-      >
-        <label htmlFor="email">Email</label>
-        <input 
-          type="email"
-          id="email"
-          name="email"
-          onChange={handleChage}
-          value={user.email}
-          required
-        />
+      <label htmlFor="email">Email</label>
+      <input 
+        type="email"
+        id="email"
+        name="email"
+        onChange={handleChage}
+        value={user.email}
+        required
+      />
+      <br></br>
+      <br></br>
+      
+      <label htmlFor="password">Password</label>
+      <input 
+        type="password"
+        id="password"
+        name="password"
+        onChange={handleChage}
+        value={user.password}
+        required
+      />
+      <br></br>
+      <br></br>
 
-        <label htmlFor="password">Password</label>
-        <input 
-          type="password"
-          id="password"
-          name="password"
-          onChange={handleChage}
-          value={user.password}
-          required
-        />
-
-        <Button variant="contained" color="primary" type="submit">
-          Primary
-        </Button>
-      </Box>
+      <button type="submit">
+        Register
+      </button>
     </form>
   )
 }
