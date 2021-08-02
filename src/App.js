@@ -5,22 +5,27 @@ import {
   Redirect
 } from 'react-router-dom'
 
-import Home from './pages/Home'
 import { Login } from './pages/Login'
 import Register from './pages/Register'
-import { Leagues } from './pages/Leagues'
+import { Teams } from './pages/Teams'
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+const PrivateRoute = props => {
+  const token = sessionStorage.getItem('token')
+  if(!token) return <Redirect to='/login'/>
+  return <Route {...props} />
+}
+
 
 function App() {
   return (
     <div>
       <Router>
         <Switch>
-          <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/leagues" component={Leagues} />
-          <Redirect from="*" to="/" />
+          <PrivateRoute exact path="/teams" component={Teams} />
+          <Redirect from="*" to="/login" />
         </Switch>
       </Router>
     </div>

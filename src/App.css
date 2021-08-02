@@ -2,3 +2,32 @@
   text-align: center;
 }
 
+.register, .login {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.cardsAlign {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 400px;
+  text-align: center;
+}
+
+.teamsCards,.cardImage {
+  width: 18rem;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.teamsCards:hover{
+  box-shadow: 8px 8px 5px grey;    
+  transform: scale(0.9);
+}
+
+.cardImage {
+  height: 300px;
+  object-fit: cover;
+}
+
